@@ -216,9 +216,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Management"/>
           </Properties>
-          <AccessibilityProperties>
-            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Management"/>
-          </AccessibilityProperties>
         </Component>
       </SubComponents>
     </Container>

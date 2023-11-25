@@ -4,26 +4,52 @@
  */
 package SLibrary;
 
-import com.sun.jdi.connect.spi.Connection;
+//import java.lang.System.Logger;
+//import java.lang.System.Logger.Level;
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import java.util.logging.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Admin
  */
-public class Category extends javax.swing.JFrame {
+public final class Category extends javax.swing.JFrame {
 
     /**
      * Creates new form Category
      */
     public Category() {
         initComponents();
+        try {
+            Connect();
+        } catch (SQLException ex) {
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Category_Load();
     }
     Connection con;
     PreparedStatement pst;
+    ResultSet rs;
     
     
-    public void connect()
+    public void Connect() throws SQLException
+    {
+        try{
+        Class.forName("com.mysql.jdbc.Driver");
+        con=DriverManager.getConnection("jdbc:mysql://localhost/SLibrary","root","");
+        }catch(ClassNotFoundException | SQLException ex){
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,7 +88,14 @@ public class Category extends javax.swing.JFrame {
         label3.setForeground(new java.awt.Color(255, 255, 255));
         label3.setText("Status");
 
+        txtstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "DeActive" }));
+
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Update");
 
@@ -170,7 +203,57 @@ public class Category extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    public void Category_Load(){
+        int c;
+        try{
+            pst=con.prepareStatement("select*from Category");
+            rs=pst.executeQuery();
+            ResultSetMetaData rsd=(ResultSetMetaData) rs.getMetaData();
+            c=rsd.getColumnCount();
+            DefaultTableModel d=(DefaultTableModel)jTable1.getModel();
+            d.setRowCount(0);
+            while(rs.next()){
+                Vector v2=new Vector();
+                for(int i=1;i<=c;i++){
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("catname"));
+                    v2.add(rs.getString("status"));
+                }
+                d.addRow(v2);
+            }
+        }
+        catch(SQLException ex){
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE,null,ex);
+            
+        }
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String category =txtcategory.getText();
+        String status=txtstatus.getSelectedItem().toString();
+        
+        try {
+            pst=con.prepareStatement("insert into Category(catname,status)values(?,?)");
+            pst.setString(1,category);
+            pst.setString(2, status);
+            int k=pst.executeUpdate();
+            
+            if(k==1){
+                JOptionPane.showMessageDialog(this,"Category Created");
+                txtcategory.setText("");
+                txtstatus.setSelectedIndex(-1);
+                txtcategory.requestFocus();
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Error");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
