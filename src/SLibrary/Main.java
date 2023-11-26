@@ -166,8 +166,6 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        label2.getAccessibleContext().setAccessibleName("Management");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,6 +192,8 @@ public class Main extends javax.swing.JFrame {
 
     private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
         // TODO add your handling code here:
+        Publisher p=new Publisher();
+        p.setVisible(true);
     }//GEN-LAST:event_button5ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -215,6 +215,8 @@ public class Main extends javax.swing.JFrame {
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
         // TODO add your handling code here:
+        Author a=new Author();
+        a.setVisible(true);
     }//GEN-LAST:event_button4ActionPerformed
 
     /**
