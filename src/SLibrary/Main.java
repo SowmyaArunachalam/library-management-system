@@ -207,10 +207,14 @@ public class Main extends javax.swing.JFrame {
 
     private void button7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button7ActionPerformed
         // TODO add your handling code here:
+        Member m=new Member();
+        m.setVisible(true);
     }//GEN-LAST:event_button7ActionPerformed
 
     private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
         // TODO add your handling code here:
+        Book b=new Book();
+        b.setVisible(true);
     }//GEN-LAST:event_button6ActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed

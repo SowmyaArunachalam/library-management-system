@@ -21,20 +21,19 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public final class Publisher extends javax.swing.JFrame {
+public final class Member extends javax.swing.JFrame {
 
     /**
      * Creates new form Category
      */
-    public Publisher() {
+    public Member() {
         initComponents();
         try {
             Connect();
         } catch (SQLException ex) {
-            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Publisher_Load();
-       
+        Member_Load();
     }
     Connection con;
     PreparedStatement pst;
@@ -47,7 +46,7 @@ public final class Publisher extends javax.swing.JFrame {
         Class.forName("com.mysql.jdbc.Driver");
         con=DriverManager.getConnection("jdbc:mysql://localhost/SLibrary","root","");
         }catch(ClassNotFoundException | SQLException ex){
-            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE,null,ex);
         }
     }
     /**
@@ -87,7 +86,7 @@ public final class Publisher extends javax.swing.JFrame {
 
         label1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         label1.setForeground(new java.awt.Color(255, 255, 255));
-        label1.setText("Publisher");
+        label1.setText("Member");
 
         label2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         label2.setForeground(new java.awt.Color(255, 255, 255));
@@ -133,7 +132,7 @@ public final class Publisher extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID", "Publisher Name", "Address", "Phone No"
+                "ID", "Member Name", "Address", "Phone No"
             }
         ) {
             Class[] types = new Class [] {
@@ -257,10 +256,10 @@ public final class Publisher extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void Publisher_Load(){
+    public void Member_Load(){
         int c;
         try{
-            pst=con.prepareStatement("select*from publisher");
+            pst=con.prepareStatement("select * from member");
             rs=pst.executeQuery();
             ResultSetMetaData rsd=(ResultSetMetaData) rs.getMetaData();
             c=rsd.getColumnCount();
@@ -278,7 +277,7 @@ public final class Publisher extends javax.swing.JFrame {
             }
         }
         catch(SQLException ex){
-            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE,null,ex);
             
         }
     }
@@ -289,26 +288,26 @@ public final class Publisher extends javax.swing.JFrame {
         String phone=txtphone.getText();
         
         try {
-            pst=con.prepareStatement("insert into publisher(name,address,phone)values(?,?,?)");
+            pst=con.prepareStatement("insert into member(name,address,phone)values(?,?,?)");
             pst.setString(1,name);
             pst.setString(2, address);
             pst.setString(3, phone);
             int k=pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this,"Publisher Created");
+                JOptionPane.showMessageDialog(this,"Member Added");
                 txtname.setText("");
                 txtaddress.setText("");
                 txtphone.setText("");
                 txtname.requestFocus();
-                Publisher_Load();
+                Member_Load();
 
             }
             else{
                 JOptionPane.showMessageDialog(this,"Error");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -334,7 +333,7 @@ public final class Publisher extends javax.swing.JFrame {
         String phone=txtphone.getText();
         
         try {
-            pst=con.prepareStatement("update publisher set name = ?,address = ?,phone = ? where id = ? ");
+            pst=con.prepareStatement("update member set name = ?,address = ?,phone = ? where id = ? ");
             pst.setString(1,name);
             pst.setString(2, address);
             pst.setString(3, phone);
@@ -342,20 +341,20 @@ public final class Publisher extends javax.swing.JFrame {
             int k=pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this,"Publisher Updated");
+                JOptionPane.showMessageDialog(this,"member Updated");
                 txtname.setText("");
                 txtaddress.setText("");
                 txtphone.setText("");
                 txtname.requestFocus();
                 jButton1.setEnabled(false);
-                Publisher_Load();
+                Member_Load();
 
             }
             else{
                 JOptionPane.showMessageDialog(this,"Error");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -367,25 +366,25 @@ public final class Publisher extends javax.swing.JFrame {
        
         
         try {
-            pst=con.prepareStatement("delete from publisher where id =? ");
+            pst=con.prepareStatement("delete from member where id =? ");
             pst.setInt(1, id);
             int k=pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this,"Publisher Deleted");
+                JOptionPane.showMessageDialog(this,"Member Deleted");
                 txtname.setText("");
                 txtaddress.setText("");
                 txtphone.setText("");
                 txtname.requestFocus();
                 
-                Publisher_Load();
+                Member_Load();
                 jButton1.setEnabled(true);
             }
             else{
                 JOptionPane.showMessageDialog(this,"Error");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -411,13 +410,13 @@ public final class Publisher extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Publisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Member.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Publisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Member.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Publisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Member.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Publisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Member.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -427,7 +426,7 @@ public final class Publisher extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Publisher().setVisible(true);
+                new Member().setVisible(true);
             }
         });
     }
