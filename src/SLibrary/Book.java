@@ -26,6 +26,7 @@ public final class Book extends javax.swing.JFrame {
     /**
      * Creates new form Category
      */
+    
     public Book() {
         initComponents();
         try {
@@ -91,12 +92,13 @@ public final class Book extends javax.swing.JFrame {
     
     public void Category(){
         try{
-            pst=con.prepareStatement("select *from category");
+            pst=con.prepareStatement("select * from category");
             rs=pst.executeQuery();
             txtcategory.removeAllItems();
             while(rs.next()){
                 txtcategory.addItem(new CategoryItem(rs.getInt(1),rs.getString(2)));
             }
+            txtcategory.setSelectedIndex(-1);
         } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,12 +106,13 @@ public final class Book extends javax.swing.JFrame {
     
     public void Author(){
         try{
-            pst=con.prepareStatement("select *from author");
+            pst=con.prepareStatement("select * from author");
             rs=pst.executeQuery();
             txtauthor.removeAllItems();
             while(rs.next()){
                 txtauthor.addItem(new AuthorItem(rs.getInt(1),rs.getString(2)));
             }
+            txtauthor.setSelectedIndex(-1);
         } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -117,12 +120,13 @@ public final class Book extends javax.swing.JFrame {
     
     public void Publisher(){
         try{
-            pst=con.prepareStatement("select *from publisher");
+            pst=con.prepareStatement("select * from publisher");
             rs=pst.executeQuery();
             txtpub.removeAllItems();
             while(rs.next()){
                 txtpub.addItem(new PublisherItem(rs.getInt(1),rs.getString(2)));
             }
+            txtpub.setSelectedIndex(-1);
         } catch (SQLException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -230,19 +234,29 @@ public final class Book extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTable1.setColumnSelectionAllowed(true);
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel1.setBackground(new java.awt.Color(102, 0, 0));
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
@@ -415,10 +429,68 @@ public final class Book extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public int getCategoryItemIndex(javax.swing.JComboBox categoryItem, int id){
+        if(id >= 0){
+            int size = categoryItem.getItemCount();
+            for (int i = 0; i < size; i++) {
+                CategoryItem item = (CategoryItem) categoryItem.getItemAt(i);
+                if (item.id == id) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+    
+    public int getAuthorItemIndex(javax.swing.JComboBox authorItem, int id){
+        if(id >= 0){
+            int size = authorItem.getItemCount();
+            for (int i = 0; i < size; i++) {
+                AuthorItem item = (AuthorItem) authorItem.getItemAt(i);
+                if (item.id == id) {
+                    return i;
+                }
+            }
+        }
+        
+        return -1;
+    }
+    
+    public int getPublisherItem(javax.swing.JComboBox publisherItem, int id){
+        if(id >= 0){
+            int size = publisherItem.getItemCount();
+            for (int i = 0; i < size; i++) {
+                PublisherItem item = (PublisherItem) publisherItem.getItemAt(i);
+                if (item.id == id) {
+                    return i;
+                }
+            }
+        }
+        
+        return -1;
+    }
+    
+    public int getBookValue(int id, String column){
+        try{
+            pst=con.prepareStatement("select * from book where id=?");
+            pst.setInt(1, id);
+            rs=pst.executeQuery();
+            if(rs.next()){
+                return rs.getInt(column);
+            }
+            
+        }
+        catch(SQLException ex){
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE,null,ex);
+            
+        }
+        return -1;
+    }
+    
     public void Book_Load(){
         int c;
         try{
-            pst=con.prepareStatement("select b.id,b.bname,c.catname,a.name,p.name,b.content,b.pages,b.edition from book b JOIN category c On b.category = c.id JOIN author a On b.author = a.id JOIN publisher p On b.publisher = p.id");
+            pst=con.prepareStatement("select b.id,b.bname,c.id, c.catname, a.id, a.name, p.id, p.name,b.content,b.pages,b.edition from book b JOIN category c On b.category = c.id JOIN author a On b.author = a.id JOIN publisher p On b.publisher = p.id");
             rs=pst.executeQuery();
             
             ResultSetMetaData rsd=(ResultSetMetaData) rs.getMetaData();
@@ -432,10 +504,13 @@ public final class Book extends javax.swing.JFrame {
                 for(int i=1;i<=c;i++){
                     v2.add(rs.getString("b.id"));
                     v2.add(rs.getString("b.bname"));
-                    v2.add(rs.getString("c.catname"));
+                    v2.add(new CategoryItem(rs.getInt("c.id"),rs.getString("c.catname")));
+                    v2.add(new AuthorItem(rs.getInt("a.id"),rs.getString("a.name")));
+                    v2.add(new PublisherItem(rs.getInt("a.id"),rs.getString("p.name")));
+//                    v2.add(rs.getString("c.catname"));
                     
-                    v2.add(rs.getString("a.name"));
-                    v2.add(rs.getString("p.name"));
+//                    v2.add(rs.getString("a.name"));
+//                    v2.add(rs.getString("p.name"));
                     v2.add(rs.getString("b.content"));
                     v2.add(rs.getString("b.pages"));
                     v2.add(rs.getString("b.edition"));
@@ -479,7 +554,7 @@ public final class Book extends javax.swing.JFrame {
                 txtcontent.setText("");
                 txtno.setText("");
                 txtedition.setText("");
-               // Publisher_Load();
+                Book_Load();
 
             }
             else{
@@ -492,17 +567,108 @@ public final class Book extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
+        DefaultTableModel d1=(DefaultTableModel)jTable1.getModel();
+        int selectIndex=jTable1.getSelectedRow();
+        int id=Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
+        int categoryID = getBookValue(id, "category");
+        int authorId = getBookValue(id, "author");
+        int publisherId = getBookValue(id, "publisher");
         
+        
+        txtname.setText(d1.getValueAt(selectIndex,1).toString());
+        
+        
+        txtcategory.setSelectedIndex(getCategoryItemIndex(txtcategory, categoryID));
+        txtauthor.setSelectedIndex(getAuthorItemIndex(txtauthor, authorId));
+        txtpub.setSelectedIndex(getPublisherItem(txtpub, publisherId));
+        
+        
+//        txtcategory.setSelectedItem(d1.getValueAt(selectIndex,2).toString());
+//        txtauthor.setSelectedItem(d1.getValueAt(selectIndex,3).toString());
+//        txtpub.setSelectedItem(d1.getValueAt(selectIndex,4).toString());
+        txtcontent.setText(d1.getValueAt(selectIndex,5).toString());
+        txtno.setText(d1.getValueAt(selectIndex,6).toString());
+        txtedition.setText(d1.getValueAt(selectIndex,7).toString());
         jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel d1=(DefaultTableModel)jTable1.getModel();
+        int selectIndex=jTable1.getSelectedRow();
+        int id=Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
         
+        String bname =txtname.getText();
+        CategoryItem citem=(CategoryItem) txtcategory.getSelectedItem();
+        AuthorItem aitem=(AuthorItem) txtauthor.getSelectedItem();
+        PublisherItem pitem=(PublisherItem)txtpub.getSelectedItem();
+        
+        String contents=txtcontent.getText();
+        String pages=txtno.getText();
+        String edition =txtedition.getText();
+        
+        try {
+            pst=con.prepareStatement("update book set bname=?,category=?,author=?,publisher=?,content=?,pages=?,edition=? where id=?");
+            pst.setString(1,bname);
+            pst.setInt(2, citem.id);
+            pst.setInt(3, aitem.id);
+            pst.setInt(4, pitem.id);
+            pst.setString(5,contents);
+            pst.setString(6,pages);
+            pst.setString(7,edition);
+            pst.setInt(8,id);
+            int k=pst.executeUpdate();
+            
+            if(k==1){
+                JOptionPane.showMessageDialog(this,"Book Updated");
+                txtname.setText("");
+                txtcategory.setSelectedIndex(-1);
+                txtauthor.setSelectedIndex(-1);
+                txtpub.setSelectedIndex(-1);
+                txtcontent.setText("");
+                txtno.setText("");
+                txtedition.setText("");
+                Book_Load();
+
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Error");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel d1=(DefaultTableModel)jTable1.getModel();
+        int selectIndex=jTable1.getSelectedRow();
+        int id=Integer.parseInt(d1.getValueAt(selectIndex,0).toString());
+       
+        
+        try {
+            pst=con.prepareStatement("delete from book where id =? ");
+            pst.setInt(1, id);
+            int k=pst.executeUpdate();
+            
+            if(k==1){
+                JOptionPane.showMessageDialog(this,"Book Deleted");
+                txtname.setText("");
+                txtcategory.setSelectedIndex(-1);
+                txtauthor.setSelectedIndex(-1);
+                txtpub.setSelectedIndex(-1);
+                txtcontent.setText("");
+                txtno.setText("");
+                txtedition.setText("");
+                Book_Load();
+                jButton1.setEnabled(true);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Error");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Member.class.getName()).log(Level.SEVERE, null, ex);
+        }
           
     }//GEN-LAST:event_jButton3ActionPerformed
 
