@@ -23,17 +23,17 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Admin
  */
-public final class lendbook extends javax.swing.JFrame {
+public final class returnbook extends javax.swing.JFrame {
 
     /**
      * Creates new form Category
      */
-    public lendbook() {
+    public returnbook() {
         initComponents();
         try {
             Connect();
         } catch (SQLException ex) {
-            Logger.getLogger(lendbook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(returnbook.class.getName()).log(Level.SEVERE, null, ex);
         }
         book();
         Issuebook_Load();
@@ -50,7 +50,7 @@ public final class lendbook extends javax.swing.JFrame {
         Class.forName("com.mysql.jdbc.Driver");
         con=DriverManager.getConnection("jdbc:mysql://localhost/SLibrary","root","");
         }catch(ClassNotFoundException | SQLException ex){
-            Logger.getLogger(lendbook.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(returnbook.class.getName()).log(Level.SEVERE,null,ex);
         }
     }
     
@@ -95,7 +95,7 @@ public final class lendbook extends javax.swing.JFrame {
         label1 = new java.awt.Label();
         label2 = new java.awt.Label();
         label3 = new java.awt.Label();
-        txtid = new java.awt.TextField();
+        txtmid = new java.awt.TextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -105,10 +105,12 @@ public final class lendbook extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         label4 = new java.awt.Label();
         label5 = new java.awt.Label();
-        txtbook = new javax.swing.JComboBox();
-        txtmember = new javax.swing.JTextField();
-        txtissuedate = new com.toedter.calendar.JDateChooser();
         txtrdate = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        txtfine = new java.awt.TextField();
+        txtelp = new java.awt.TextField();
+        txtmname = new java.awt.Label();
+        txtbook = new java.awt.Label();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -120,7 +122,7 @@ public final class lendbook extends javax.swing.JFrame {
 
         label1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         label1.setForeground(new java.awt.Color(255, 255, 255));
-        label1.setText("Issue Book");
+        label1.setText("Return Book");
 
         label2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         label2.setForeground(new java.awt.Color(255, 255, 255));
@@ -130,14 +132,14 @@ public final class lendbook extends javax.swing.JFrame {
         label3.setForeground(new java.awt.Color(255, 255, 255));
         label3.setText("Member Name");
 
-        txtid.addActionListener(new java.awt.event.ActionListener() {
+        txtmid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtidActionPerformed(evt);
+                txtmidActionPerformed(evt);
             }
         });
-        txtid.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtmid.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtidKeyPressed(evt);
+                txtmidKeyPressed(evt);
             }
         });
 
@@ -198,7 +200,7 @@ public final class lendbook extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(102, 0, 0));
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Return Date");
+        jLabel1.setText("Days Elap");
 
         label4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         label4.setForeground(new java.awt.Color(255, 255, 255));
@@ -206,13 +208,20 @@ public final class lendbook extends javax.swing.JFrame {
 
         label5.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         label5.setForeground(new java.awt.Color(255, 255, 255));
-        label5.setText("Date");
+        label5.setText("Return Date");
 
-        txtbook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtbookActionPerformed(evt);
-            }
-        });
+        jLabel2.setBackground(new java.awt.Color(102, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Fine");
+
+        txtfine.setText("textField1");
+
+        txtelp.setText("textField2");
+
+        txtmname.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtbook.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,14 +235,16 @@ public final class lendbook extends javax.swing.JFrame {
                             .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtbook, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtissuedate, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
-                            .addComponent(txtmember)
-                            .addComponent(txtid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtrdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtrdate, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                            .addComponent(txtmid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtelp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtfine, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtmname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtbook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,28 +269,37 @@ public final class lendbook extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtmember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtbook, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtmid, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtmname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtissuedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtbook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtrdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(txtrdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1)
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(txtfine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -343,16 +363,16 @@ public final class lendbook extends javax.swing.JFrame {
             }
         }
         catch(SQLException ex){
-            Logger.getLogger(lendbook.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(returnbook.class.getName()).log(Level.SEVERE,null,ex);
             
         }
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       String mid=txtid.getText();
+       String mid=txtmid.getText();
        BookItem bitem=(BookItem) txtbook.getSelectedItem();
        SimpleDateFormat date_format=new SimpleDateFormat("yyyy-MM-dd");
-       String issuedate=date_format.format(txtissuedate.getDate());
+       String issuedate=date_format.format(txtrdate.getDate());
         
        SimpleDateFormat date_format1=new SimpleDateFormat("yyyy-MM-dd");
        String returndate=date_format.format(txtrdate.getDate());
@@ -368,7 +388,7 @@ public final class lendbook extends javax.swing.JFrame {
             
             if(k==1){
                 JOptionPane.showMessageDialog(this,"Book Issued");
-                txtid.setText("");
+                txtmid.setText("");
                 txtbook.setSelectedIndex(-1);
                 txtmember.setText("");
                // Publisher_Load();
@@ -378,7 +398,7 @@ public final class lendbook extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this,"Error");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(lendbook.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(returnbook.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -403,18 +423,14 @@ public final class lendbook extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void txtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidActionPerformed
+    private void txtmidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmidActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtidActionPerformed
+    }//GEN-LAST:event_txtmidActionPerformed
 
-    private void txtbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbookActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtbookActionPerformed
-
-    private void txtidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtidKeyPressed
+    private void txtmidKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtmidKeyPressed
         // TODO add your handling code here:
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            String mid=txtid.getText();
+            String mid=txtmid.getText();
             try{
             pst =con.prepareStatement("select 8 from member where id = ?");
             pst.setString(1,mid);
@@ -428,9 +444,9 @@ public final class lendbook extends javax.swing.JFrame {
             }
             }   
             catch (SQLException ex) {
-                Logger.getLogger(lendbook.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(returnbook.class.getName()).log(Level.SEVERE, null, ex);
             }
-    }//GEN-LAST:event_txtidKeyPressed
+    }//GEN-LAST:event_txtmidKeyPressed
     }
     /**
      * @param args the command line arguments
@@ -449,14 +465,30 @@ public final class lendbook extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(lendbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(returnbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(lendbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(returnbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(lendbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(returnbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(lendbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(returnbook.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -477,7 +509,7 @@ public final class lendbook extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new lendbook().setVisible(true);
+                new returnbook().setVisible(true);
             }
         });
     }
@@ -488,6 +520,7 @@ public final class lendbook extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -498,10 +531,11 @@ public final class lendbook extends javax.swing.JFrame {
     private java.awt.Label label3;
     private java.awt.Label label4;
     private java.awt.Label label5;
-    private javax.swing.JComboBox txtbook;
-    private java.awt.TextField txtid;
-    private com.toedter.calendar.JDateChooser txtissuedate;
-    private javax.swing.JTextField txtmember;
+    private java.awt.Label txtbook;
+    private java.awt.TextField txtelp;
+    private java.awt.TextField txtfine;
+    private java.awt.TextField txtmid;
+    private java.awt.Label txtmname;
     private com.toedter.calendar.JDateChooser txtrdate;
     // End of variables declaration//GEN-END:variables
 }

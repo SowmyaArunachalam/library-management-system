@@ -91,6 +91,11 @@ public class Main extends javax.swing.JFrame {
 
         button8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         button8.setLabel("Issue Book");
+        button8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button8ActionPerformed(evt);
+            }
+        });
 
         button1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         button1.setLabel("Logout");
@@ -222,6 +227,12 @@ public class Main extends javax.swing.JFrame {
         Author a=new Author();
         a.setVisible(true);
     }//GEN-LAST:event_button4ActionPerformed
+
+    private void button8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button8ActionPerformed
+        // TODO add your handling code here:
+        lendbook l=new lendbook();
+        l.setVisible(true);
+    }//GEN-LAST:event_button8ActionPerformed
 
     /**
      * @param args the command line arguments
